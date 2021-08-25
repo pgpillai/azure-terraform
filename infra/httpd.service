@@ -1,0 +1,9 @@
+[Unit]
+Description= This is a simple Http service from Busybox
+[Service]
+Restart=always
+RestartSec=1
+User=packer
+ExecStart=/usr/bin/nohup /bin/busybox httpd -f -p 80 -h /home/packer
+[Install]
+WantedBy=multi-user.target

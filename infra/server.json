@@ -1,0 +1,56 @@
+{
+	"variables": {
+		"client_id": "{{env `ARM_CLIENT_ID`}}",
+		"client_secret": "{{env `ARM_CLIENT_SECRET`}}",
+		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}",
+		"azure-rg": "azure-infra-rg",
+        "azure-location": "{{env `ARM_DEFAULT_LOCATION`}}"
+        
+	},
+	"builders": [
+		{
+			"type": "azure-arm",
+			"client_id": "{{user `client_id`}}",
+			"client_secret": "{{user `client_secret`}}",
+			"subscription_id": "{{user `subscription_id`}}",
+			"os_type": "Linux",
+			"image_publisher": "Canonical",
+			"image_offer": "UbuntuServer",
+			"image_sku": "18.04-LTS",
+			"build_resource_group_name": "{{user `azure-rg`}}",
+			"managed_image_resource_group_name": "{{user `azure-rg`}}",
+			"managed_image_name": "AzureInfraPackerImage",
+			
+			"vm_size": "Standard_A2",
+			"azure_tags": {
+				"AppName": "AzureInfra"
+			}
+		}
+	],
+	"provisioners": [
+		
+			{
+				"type":"file",
+				"source": "./httpd.service",
+				"destination": "~/http.service"
+			},
+			{
+			"inline": [
+				"export DEBIAN_FRONTEND=noninteractive",
+				"apt-get update",
+				"apt-get -o Dpkg::Options::=--force-confold dist-upgrade -q -y --allow-downgrades --allow-remove-essential --allow-change-held-packages",
+				"echo 'Hello, udacity World!' > index.html",
+				"sudo mv http.service /etc/systemd/system",
+				"sudo chown root:root /etc/systemd/system/http.service",
+				"sudo chmod 664 /etc/systemd/system/http.service",
+				"sudo systemctl daemon-reload",
+				"sudo systemctl enable http"
+				
+				
+			],
+			"inline_shebang": "/bin/sh -x",
+			"type": "shell",
+			"execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
+		}
+	]
+}
