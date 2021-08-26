@@ -21,16 +21,17 @@ az policy assignment list
 
 Packer
 a. Create a resource group for your image. It will be used as a variable with default value into packer file "server.json" 
-
+'''
 az group create -l eastus -n azure-infra-rg
-
+'''
 
 b. Export ( set) the following variables that will be used in server.json
-
+'''
 export CLIENT_ID="< client_id value >"
 export CLIENT_SECRET="< client_secret >"
 export TENANT_ID="< tenant_id >"
 export SUBSCRIPTION_ID="< subscription_id > "
+'''
 
 Note: check with echo $CLIENT_ID ( for example)
 c. Run the following command to build your server image. 
