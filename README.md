@@ -1,11 +1,11 @@
 # azure-terraform
-Instructions
+### Instructions
 
 Login to Azure CLI
 ```
 az login
 ```
-Policy
+### Policy
 Connected to Azure CLI, perform the following:
 
 a. Create the Policy Definition
@@ -25,7 +25,7 @@ d. Check the policy was assigned:
 ```
 az policy assignment list
 ```
-Packer
+### Packer
 a. Create a resource group for your image. It will be used as a variable with default value into packer file "server.json" 
 ```
 az group create -l eastus -n azure-infra-rg
@@ -39,7 +39,6 @@ export TENANT_ID="< tenant_id >"
 export SUBSCRIPTION_ID="< subscription_id > "
 ```
 
-Note: check with echo $CLIENT_ID ( for example)
 c. Run the following command to build your server image. 
 ```
 cd infra
@@ -48,7 +47,7 @@ packer build server.json
 ```
 
 
-Terraform
+### Terraform
 The terraform file creates the following resources listed below:
 
 resource group
@@ -95,7 +94,7 @@ $ curl http://40.71.163.151:8080/
 Hello, udacity World!
 ```
 
-Destroying the Resources ( deletion process)
+### Destroying the Resources 
 ```
 terraform destroy
 ```
