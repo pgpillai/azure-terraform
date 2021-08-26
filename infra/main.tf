@@ -43,8 +43,8 @@ resource "azurerm_network_security_rule" "httpinbound" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = 80
-  source_address_prefix       = "*"
+  destination_port_range      = 8080
+  source_address_prefix       = "Internet"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.main.name
@@ -52,13 +52,13 @@ resource "azurerm_network_security_rule" "httpinbound" {
 
 resource "azurerm_network_security_rule" "lbinbound" {
   name                        = "${var.prefix}-nsg-lb-rule"
-  priority                    = 4010
+  priority                    = 110
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = 8080
-  source_address_prefix       = "AzureLoadBalancer"
+  destination_port_range      = 80
+  source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.main.name
