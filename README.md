@@ -1,4 +1,7 @@
 # azure-terraform
+
+This project demonstrate the Capabilities of building Azure infrastructure with Packer prebuild image and Infrastructure as a Code using Terraform.
+
 ### Instructions
 
 Login to Azure CLI
@@ -9,8 +12,8 @@ az login
 Connected to Azure CLI, perform the following:
 
 a. Create the Policy Definition
-cd to policy
 ```
+cd to policy
 az policy definition create --name tagging-policy  --rules tagPolicy.json --param tagPolicyParams.json
 ```
 b. Show the Policy definition
@@ -80,9 +83,32 @@ c. to create an execution plan named "solution.plan"
 ```
 terraform plan -out solution.plan
 ```
+You will see output similar to this
+```
+     + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+Plan: 26 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + app_url = (known after apply)
+```
 d. Create the Infrastructure ( wait some minutes) :
 ```
 terraform apply solution.plan
+```
+
+You will see similar output as follow.
+```
+
+
+Apply complete! Resources: 26 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+app_url = "http://104.45.137.28:8080/"
 ```
 e. You can get as an output result , the URL of the Load balancer Example:
 

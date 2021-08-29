@@ -43,20 +43,6 @@ resource "azurerm_network_security_rule" "httpinbound" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = 8080
-  source_address_prefix       = "Internet"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.main.name
-}
-
-resource "azurerm_network_security_rule" "lbinbound" {
-  name                        = "${var.prefix}-nsg-lb-rule"
-  priority                    = 110
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
   destination_port_range      = 80
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
@@ -64,12 +50,40 @@ resource "azurerm_network_security_rule" "lbinbound" {
   network_security_group_name = azurerm_network_security_group.main.name
 }
 
+
+resource "azurerm_network_security_rule" "vnetinbound" {
+  name                        = "${var.prefix}-nsg-vnet-rule"
+  priority                    = 120
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "VirtualNetwork"
+  destination_address_prefix  = "VirtualNetwork"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}
+
+resource "azurerm_network_security_rule" "lbinbound" {
+  name                        = "${var.prefix}-nsg-lb-rule"
+  priority                    = 130
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "AzureLoadBalancer"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}
 resource "azurerm_network_security_rule" "denyinbound" {
   name                        = "${var.prefix}-nsg-deny-rule"
   priority                    = 4000
   direction                   = "Inbound"
   access                      = "Deny"
-  protocol                    = "Tcp"
+  protocol                    = "*"
   source_port_range           = "*"
   destination_port_range      = "*"
   source_address_prefix       = "*"
