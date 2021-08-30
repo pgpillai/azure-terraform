@@ -53,27 +53,31 @@ packer build server.json
 ### Terraform
 The terraform file creates the following resources listed below:
 
-resource group
-virtual network
-subnet
-network security group limiting access
-    - allow port 80 with priority as 100
-    - Deny all inbound request with priority 120
-network interfaces
-a public ip
-load balancer
-availability set for the virtual machines
-Linux virtual machines (2 by default)
-    The number of VMs can be configured as environment variable , example for 3 VMs set the environment varibale as follow
-    ''''
-    export TF_VAR_num_of_vms=3 
-    ''''
-1 managed disk per instance
+    - resource group
+    - virtual network
+    - subnet
+    - network security group limiting access
+      - allow port 80 with priority as 100
+      - Deny all inbound request with priority 120
+    - network interfaces
+    - a public ip
+    - load balancer
+    - availability set for the virtual machines
+    - Linux virtual machines (2 by default)
+      - The number of VMs can be configured as environment variable , example for 3 VMs set the environment varibale as follow
+        ```
+        export TF_VAR_num_of_vms=3 
+        ```
+    - 1 managed disk per instance
 to do that use the files:
 
-Files	Description
-main.tf	Provider and resources
-variables.tf	Variables
+    --------------------------------------
+    |Files	      |Description            |
+    --------------------------------------
+    |main.tf	  |Provider and resources |
+    --------------------------------------
+    |variables.tf |Variables              |
+    --------------------------------------
 
 a. Go to Terraform directory and Run terraform init to prepare your directory for terraform
 ```
